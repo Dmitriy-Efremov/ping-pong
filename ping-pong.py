@@ -38,8 +38,6 @@ class Ball(GameSprite):
         self.rect.y += self.speed_y   
         if self.rect.y >=465 or self.rect.y <= 5:
             self.speed_y = self.speed_y * -1
-        if self.rect.x >= 665 or self.rect.x <=5:
-            self.speed_x = self.speed_x * -1
             
 window = display.set_mode((700,500))
 
@@ -55,6 +53,8 @@ finish = False
 game = True
 while game:
     if not finish:
+        sprites_list1 = sprite.spritecollide(player,ball, False)
+        sprites_list2 = sprite.spritecollide(player2,ball, False)
         window.blit(background,(0,0))
         player.reset()
         player.update()
