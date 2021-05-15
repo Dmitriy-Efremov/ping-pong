@@ -30,7 +30,10 @@ class Player(GameSprite):
         if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
         if keys_pressed[K_s] and self.rect.y < 328:
-            self.rect.y += self.speed       
+            self.rect.y += self.speed 
+class Ball(GameSprite):
+    def update(self):
+        pass     
             
 window = display.set_mode((700,500))
 
@@ -40,6 +43,7 @@ FPS = 60
 background = transform.scale(image.load("background.jpg"), (700,500))
 player = Player('player.png', 645, 222,5, 50, 170)
 player2 = Player('player.png', 6, 222,5, 50, 170)
+ball = Ball('ball.png',350,250,8,50,50)
 
 finish = False
 game = True
@@ -50,6 +54,7 @@ while game:
         player.update()
         player2.reset()
         player2.update2()
+        ball.reset()
     for e in event.get():
         if e.type == QUIT:
             game = False
