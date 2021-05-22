@@ -6,6 +6,8 @@ lost = 0
 score = 0
 num_fire = 0 
 rel_time = False
+player1_score = 0
+player2_score = 0
 
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y,speed_y,speed_x, size_x, size_y):
@@ -51,6 +53,9 @@ player1 = Player('player.png', 645, 222,5,0, 50, 170)
 player2 = Player('player.png', 6, 222,5, 0,50, 170)
 ball = Ball('ball.png',350,250,8,8,50,50)
 
+font.init()
+font2 = font.SysFont('Arial', 36)
+
 finish = False
 game = True
 while game:
@@ -64,13 +69,30 @@ while game:
         ball.update()
         sprites_list1 = sprite.collide_rect(ball,player1)
         sprites_list2 = sprite.collide_rect(ball,player2)
+        score = font2.render(str(player2_score) + ':' + str(player1_score),1,(0,215,0))
+        window.blit(score,(350,15))
         if sprites_list1 or sprites_list2:
             ball.speed_x = ball.speed_x * -1
         if ball.rect.x >=665:
-            finish = True
+            player2_score = player2_score + 1
         if ball.rect.x <=5:
+            player1_score = player1_score + 1
+        if player1_score >=5:
+            win1 = font2.render("Правый игрок победил",1, (200,215,0))
+            window.blit(win1, (200,250))
+            finish = True
+        if player2_score >=5:
+            win2 = font2.render("Левый игрок победил",1, (200,215,0))
+            window.blit(win2, (200,250))
             finish = True
         
+    else:
+        player1_score = 0
+        player2_score = 0
+        finish = False
+        time.delay(3000)
+
+
     for e in event.get():
         if e.type == QUIT:
             game = False
