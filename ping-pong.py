@@ -24,13 +24,13 @@ class Player(GameSprite):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_UP] and self.rect.y > 5:
             self.rect.y -= self.speed_y
-        if keys_pressed[K_DOWN] and self.rect.y < 328:
+        if keys_pressed[K_DOWN] and self.rect.y < 325:
             self.rect.y += self.speed_y
     def update2(self):
         keys_pressed = key.get_pressed()
         if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed_y
-        if keys_pressed[K_s] and self.rect.y < 328:
+        if keys_pressed[K_s] and self.rect.y < 325:
             self.rect.y += self.speed_y
 class Ball(GameSprite):
     def update(self):
@@ -38,6 +38,8 @@ class Ball(GameSprite):
         self.rect.y += self.speed_y   
         if self.rect.y >=465 or self.rect.y <= 5:
             self.speed_y = self.speed_y * -1
+        if self.rect.x >= 665 or self.rect.x <=5:
+            self.speed_x = self.speed_x * -1
             
 window = display.set_mode((700,500))
 
@@ -45,7 +47,7 @@ clock = time.Clock()
 FPS = 60
 
 background = transform.scale(image.load("background.jpg"), (700,500))
-player = Player('player.png', 645, 222,5,0, 50, 170)
+player1 = Player('player.png', 645, 222,5,0, 50, 170)
 player2 = Player('player.png', 6, 222,5, 0,50, 170)
 ball = Ball('ball.png',350,250,8,8,50,50)
 
@@ -53,15 +55,22 @@ finish = False
 game = True
 while game:
     if not finish:
-        sprites_list1 = sprite.spritecollide(player,ball, False)
-        sprites_list2 = sprite.spritecollide(player2,ball, False)
         window.blit(background,(0,0))
-        player.reset()
-        player.update()
+        player1.reset()
+        player1.update()
         player2.reset()
         player2.update2()
         ball.reset()
         ball.update()
+        sprites_list1 = sprite.collide_rect(ball,player1)
+        sprites_list2 = sprite.collide_rect(ball,player2)
+        if sprites_list1 or sprites_list2:
+            ball.speed_x = ball.speed_x * -1
+        if ball.rect.x >=665:
+            finish = True
+        if ball.rect.x <=5:
+            finish = True
+        
     for e in event.get():
         if e.type == QUIT:
             game = False
