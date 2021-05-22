@@ -40,8 +40,7 @@ class Ball(GameSprite):
         self.rect.y += self.speed_y   
         if self.rect.y >=465 or self.rect.y <= 5:
             self.speed_y = self.speed_y * -1
-        if self.rect.x >= 665 or self.rect.x <=5:
-            self.speed_x = self.speed_x * -1
+
             
 window = display.set_mode((700,500))
 
@@ -49,9 +48,9 @@ clock = time.Clock()
 FPS = 60
 
 background = transform.scale(image.load("background.jpg"), (700,500))
-player1 = Player('player.png', 645, 222,5,0, 50, 170)
-player2 = Player('player.png', 6, 222,5, 0,50, 170)
-ball = Ball('ball.png',350,250,8,8,50,50)
+player1 = Player('player.png', 645, 222,8,0, 50, 170)
+player2 = Player('player.png', 6, 222,8, 0,50, 170)
+ball = Ball('ball.png',350,250,6,6,50,50)
 
 font.init()
 font2 = font.SysFont('Arial', 36)
@@ -75,8 +74,14 @@ while game:
             ball.speed_x = ball.speed_x * -1
         if ball.rect.x >=665:
             player2_score = player2_score + 1
+            time.delay(300)
+            ball.rect.x = 350
+            ball.rect.y = 250
         if ball.rect.x <=5:
             player1_score = player1_score + 1
+            time.delay(300)
+            ball.rect.x = 350
+            ball.rect.y = 250
         if player1_score >=5:
             win1 = font2.render("Правый игрок победил",1, (200,215,0))
             window.blit(win1, (200,250))
